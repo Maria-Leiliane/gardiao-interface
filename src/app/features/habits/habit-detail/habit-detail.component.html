@@ -1,0 +1,40 @@
+<div class="detail-container">
+  <button routerLink="/habits" class="btn-secondary">⬅ Voltar</button>
+
+  @if (loading) {
+    <p>Carregando detalhes do hábito...</p>
+  } @else {
+    @if (habit) {
+      <div class="habit-header">
+        <h2>{{ habit.name }}</h2>
+        <span class="badge">{{ habit.frequency || 'Sem frequência' }}</span>
+      </div>
+
+      <div class="habit-info">
+        <p><strong>Tipo de Objetivo:</strong> {{ habit.goal_type || 'Não definido.' }}</p>
+        <p><strong>Criado em:</strong> {{ habit.created_at | date:'dd/MM/yyyy' }}</p>
+      </div>
+
+      <hr>
+
+      <div class="habit-logs">
+        <h3>Histórico de Execuções</h3>
+
+        @if (logs.length === 0) {
+          <p>Não tem registro de execução para este hábito.</p>
+        } @else {
+          <ul class="log-list">
+            @for (log of logs; track log.id) {
+              <li>
+                ✅ Concluído em: <strong>{{ log.log_date | date:'dd/MM/yyyy HH:mm' }}</strong>
+                (Valor: {{ log.value }})
+              </li>
+            }
+          </ul>
+        }
+      </div>
+    } @else {
+      <p class="error">Hábito não encontrado.</p>
+    }
+  }
+</div>

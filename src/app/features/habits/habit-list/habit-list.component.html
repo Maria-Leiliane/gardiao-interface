@@ -1,0 +1,32 @@
+<div class="habit-container">
+  <div class="header">
+    <h2>Meus Hábitos</h2>
+    <button routerLink="/habits/novo" class="btn-primary">+ Novo Hábito</button>
+  </div>
+
+  @if (loading) {
+    <p>Carregando seus hábitos...</p>
+  } @else {
+    @if (habits.length === 0) {
+      <p>Você ainda não tem nenhum hábito cadastrado. Que tal começar um agora?</p>
+    } @else {
+      <div class="habit-grid">
+        @for (habit of habits; track habit.id) {
+          <div class="habit-card">
+            <h3>{{ habit.name }}</h3>
+
+            <div class="habit-stats">
+              <span>🎯 Objetivo: {{ habit.goal_type || 'Geral' }}</span>
+              <span>⏰ Frequência: {{ habit.frequency }}</span>
+            </div>
+
+            <div class="actions">
+              <button (click)="registrarExecucao(habit.id)" class="btn-success">✅ Feito Hoje</button>
+              <button [routerLink]="['/habits', habit.id]" class="btn-secondary">Detalhes</button>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  }
+</div>

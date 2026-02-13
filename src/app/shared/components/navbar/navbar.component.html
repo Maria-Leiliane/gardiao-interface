@@ -1,0 +1,29 @@
+<nav class="navbar" *ngIf="authService.hasToken()">
+  <div class="navbar-brand">
+    <span class="logo">🛡️</span>
+    <span class="brand-name">Go Guardião</span>
+  </div>
+
+  <button class="menu-toggle" (click)="toggleMenu()">☰</button>
+
+  <div class="navbar-links" [class.open]="menuOpen">
+    <a routerLink="/dashboard" routerLinkActive="active" (click)="menuOpen = false">
+      📊 Dashboard
+    </a>
+    <a routerLink="/habits" routerLinkActive="active" (click)="menuOpen = false">
+      🎯 Hábitos
+    </a>
+    <a routerLink="/gamification" routerLinkActive="active" (click)="menuOpen = false">
+      🎮 Gamificação
+    </a>
+    <a routerLink="/profile" routerLinkActive="active" (click)="menuOpen = false">
+      👤 Perfil
+    </a>
+  </div>
+
+  <div class="navbar-user" *ngIf="user">
+    <span class="mana-badge">✨ {{ manaBalance }} Mana</span>
+    <span class="user-name">{{ user?.name }}</span>
+    <button class="btn-logout" (click)="logout()">Sair</button>
+  </div>
+</nav>

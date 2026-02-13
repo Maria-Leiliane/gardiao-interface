@@ -1,0 +1,62 @@
+<div class="dashboard" *ngIf="!loading">
+  <h1 class="page-title">👋 Olá, {{ user?.name }}!</h1>
+
+  <div class="dashboard-grid">
+    <!-- Mana Card -->
+    <app-card title="Sua Mana" icon="✨" subtitle="Nível {{ currentLevel }}">
+      <div class="mana-section">
+        <div class="mana-value">{{ mana?.balance || 0 }}</div>
+        <div class="mana-bar">
+          <div class="mana-fill" [style.width.%]="manaPercentage"></div>
+        </div>
+        <p class="text-muted">Continue completando hábitos para subir de nível!</p>
+      </div>
+    </app-card>
+
+    <!-- Stats Cards -->
+    <app-card title="Hábitos Ativos" icon="🎯">
+      <div class="stat-number">{{ habits.length }}</div>
+      <p class="text-muted">hábitos cadastrados</p>
+    </app-card>
+
+    <app-card title="Desafios" icon="🏆">
+      <div class="stat-number">{{ challenges.length }}</div>
+      <p class="text-muted">desafios disponíveis</p>
+    </app-card>
+  </div>
+
+  <!-- Hábitos do Dia -->
+  <section class="section">
+    <h2>📋 Hábitos de Hoje</h2>
+    <div class="habit-list" *ngIf="habits.length > 0; else noHabits">
+      <div class="habit-item" *ngFor="let habit of habits">
+        <div class="habit-info">
+          <strong>{{ habit.name }}</strong>
+          <span class="badge badge-info">{{ habit.frequency || 'Diário' }}</span>
+        </div>
+        <app-button label="✓ Registrar" variant="primary" (clicked)="logHabit(habit.id!)"></app-button>
+      </div>
+    </div>
+    <ng-template #noHabits>
+      <p class="empty-state">Nenhum hábito cadastrado. <a routerLink="/habits">Crie seu primeiro hábito!</a></p>
+    </ng-template>
+  </section>
+
+  <!-- Desafios Ativos -->
+  <section class="section">
+    <h2>🏆 Desafios Ativos</h2>
+    <div class="challenge-grid">
+      <app-card *ngFor="let challenge of challenges" [title]="challenge.name" icon="⚡">
+        <p>{{ challenge.description || challenge.goal_type }}</p>
+        <div class="challenge-reward">
+          <span class="mana-reward">+{{ challenge.mana_reward }} Mana</span>
+        </div>
+      </app-card>
+    </div>
+  </section>
+</div>
+
+<div class="loading" *ngIf="loading">
+  <div class="spinner-large"></div>
+  <p>Carregando seu painel...</p>
+</div>

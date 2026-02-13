@@ -1,0 +1,89 @@
+<div class="gamification-container">
+
+  @if (loading) {
+    <p class="loading-text">Carregando o universo do Go Guardião...</p>
+  } @else {
+
+    <header class="mana-header">
+      <h2>Sua Reserva de Poder</h2>
+      <div class="mana-display">
+        <span class="mana-icon">💎</span>
+        <span class="mana-amount">{{ mana?.balance || 0 }}</span>
+        <span class="mana-label">Mana</span>
+      </div>
+      @if (mensagem) {
+        <div class="alert-box">{{ mensagem }}</div>
+      }
+    </header>
+
+    <div class="grid-layout">
+
+      <div class="main-content">
+
+        <section class="card-section">
+          <h3>🎯 Desafios Ativos</h3>
+          <p class="subtitle">Complete estes objetivos para ganhar Mana.</p>
+
+          <div class="item-list">
+            @for (challenge of challenges; track challenge.id) {
+              <div class="item-card challenge-card">
+                <div>
+                  <h4>{{ challenge.name }}</h4>
+                  <p>{{ challenge.description || 'Objetivo: ' + challenge.goal_type }}</p>
+                </div>
+                <div class="reward-tag">
+                  +{{ challenge.mana_reward }} 💎
+                </div>
+              </div>
+            } @empty {
+              <p>Nenhum desafio ativo no momento.</p>
+            }
+          </div>
+        </section>
+
+        <section class="card-section">
+          <h3>🎁 Suas Recompensas</h3>
+          <p class="subtitle">Use sua Mana para resgatar prêmios e vantagens.</p>
+
+          <div class="item-list">
+            @for (reward of rewards; track reward.id) {
+              <div class="item-card reward-card">
+                <div>
+                  <h4>{{ reward.name }}</h4>
+                  <p>{{ reward.description }}</p>
+                </div>
+                <button
+                  class="btn-redeem"
+                  [disabled]="(mana?.balance || 0) < reward.cost"
+                  (click)="resgatarRecompensa(reward)">
+                  Gastar {{ reward.cost }} 💎
+                </button>
+              </div>
+            } @empty {
+              <p>Nenhuma recompensa disponível hoje.</p>
+            }
+          </div>
+        </section>
+      </div>
+
+      <aside class="sidebar">
+        <section class="card-section leaderboard">
+          <h3>🏆 Placar de Líderes</h3>
+
+          <ol class="ranking-list">
+            @for (entry of leaderboard; track entry.user_id; let i = $index) {
+              <li [class.top-three]="i < 3">
+                <span class="rank-position">#{{ i + 1 }}</span>
+                <span class="player-name">{{ entry.user_name }}</span>
+                <span class="player-score">{{ entry.mana }} 💎</span>
+              </li>
+            } @empty {
+              <p>O placar ainda está vazio. Seja o primeiro a pontuar!</p>
+            }
+          </ol>
+        </section>
+      </aside>
+
+    </div>
+  }
+</div>

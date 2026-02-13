@@ -1,0 +1,28 @@
+<div class="form-container">
+  <h2>Criar Novo Hábito</h2>
+
+  <form [formGroup]="habitForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label>Nome do Hábito *</label>
+      <input type="text" formControlName="title" placeholder="Ex: Ler 10 páginas">
+    </div>
+
+    <div class="form-group">
+      <label>Descrição</label>
+      <textarea formControlName="description" rows="3"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Frequência *</label>
+      <select formControlName="frequency">
+        <option value="DIARIA">Diária</option>
+        <option value="SEMANAL">Semanal</option>
+        <option value="MENSAL">Mensal</option>
+      </select>
+    </div>
+
+    <button type="submit" [disabled]="habitForm.invalid || salvando">
+      {{ salvando ? 'Salvando...' : 'Salvar Hábito' }}
+    </button>
+  </form>
+</div>

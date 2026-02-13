@@ -1,0 +1,12 @@
+<div class="card">
+  <div class="card-header" *ngIf="title || icon">
+    <span class="card-icon" *ngIf="icon">{{ icon }}</span>
+    <div>
+      <h3 class="card-title">{{ title }}</h3>
+      <p class="card-subtitle" *ngIf="subtitle">{{ subtitle }}</p>
+    </div>
+  </div>
+  <div class="card-body">
+    <ng-content></ng-content>
+  </div>
+</div>

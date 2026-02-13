@@ -1,0 +1,104 @@
+<div class="profile-container">
+  <h2>Meu Perfil</h2>
+
+  @if (loading) {
+    <p>Carregando seus dados...</p>
+  } @else {
+
+    <section class="card">
+      <h3>Dados Gerais</h3>
+      <p><strong>E-mail de cadastro:</strong> {{ user?.email }}</p>
+
+      <form [formGroup]="profileForm" (ngSubmit)="atualizarPerfil()">
+        <div class="form-group">
+          <label>Nome de Exibição</label>
+          <input type="text" formControlName="name">
+        </div>
+
+        <div class="form-group">
+          <label>Tema de Preferência</label>
+          <select formControlName="theme">
+            <option value="light">Claro</option>
+            <option value="dark">Escuro</option>
+          </select>
+        </div>
+
+        <button type="submit" [disabled]="profileForm.invalid" class="btn-primary">Salvar Perfil</button>
+        <span class="feedback-msg">{{ msgPerfil }}</span>
+      </form>
+    </section>
+
+    <section class="card">
+      <h3>Segurança</h3>
+      <form [formGroup]="passwordForm" (ngSubmit)="atualizarSenha()">
+        <div class="form-group">
+          <label>Senha Atual</label>
+          <input type="password" formControlName="current">
+        </div>
+
+        <div class="form-group">
+          <label>Nova Senha</label>
+          <input type="password" formControlName="next">
+        </div>
+
+        <button type="submit" [disabled]="passwordForm.invalid" class="btn-warning">Alterar Senha</button>
+        <span class="feedback-msg">{{ msgSenha }}</span>
+      </form>
+    </section>
+
+    <section class="card">
+      <h3>Contatos de Suporte (Guardiões)</h3>
+      <p>Quem devemos contatar se você precisar de ajuda extra?</p>
+
+      <ul class="contact-list">
+        @for (contact of contacts; track contact.contact_id) {
+          <li>
+            <span>
+              <strong>{{ contact.nickname || contact.name }}</strong>
+              ({{ contact.contact_email }})
+            </span>
+            <button (click)="removerContato(contact.contact_id)" class="btn-danger">🗑️ Remover</button>
+          </li>
+        } @empty {
+          <li>Você ainda não adicionou nenhum Guardião.</li>
+        }
+      </ul>
+
+      <form [formGroup]="contactForm" (ngSubmit)="adicionarContato()" class="add-contact-form">
+        <h4>Adicionar Novo Guardião</h4>
+
+        <div class="form-group">
+          <label>Nome Completo *</label>
+          <input type="text" formControlName="name">
+        </div>
+
+        <div class="form-group">
+          <label>Apelido (ex: Mãe, Padrinho)</label>
+          <input type="text" formControlName="nickname">
+        </div>
+
+        <div class="form-group">
+          <label>E-mail *</label>
+          <input type="email" formControlName="contact_email">
+        </div>
+
+        <div class="form-group">
+          <label>Telefone</label>
+          <input type="text" formControlName="phone">
+        </div>
+
+        <div class="form-group">
+          <label>Preferência de Notificação</label>
+          <select formControlName="notification_preference">
+            <option value="EMAIL">E-mail</option>
+            <option value="WHATSAPP">WhatsApp</option>
+            <option value="SMS">SMS</option>
+          </select>
+        </div>
+
+        <button type="submit" [disabled]="contactForm.invalid" class="btn-secondary">+ Adicionar</button>
+      </form>
+    </section>
+
+  }
+</div>
