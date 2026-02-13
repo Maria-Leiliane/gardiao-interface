@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://guardiao-interface.vercel.app/api/v1'
+  apiUrl: 'https://go-guardiao-api.onrender.com/api/v1'
 };
