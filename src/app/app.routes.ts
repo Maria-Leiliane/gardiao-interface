@@ -9,19 +9,17 @@ export const routes: Routes = [
   // Rota padrão (quando o usuário acessa apenas localhost:4200)
   { path: '', redirectTo: '/login', pathMatch: 'full' },
 
-  // Nossas telas independentes
+  // telas independentes
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'gamification', component: GamificationComponent },
   { path: 'profile', component: ProfileComponent },
 
-  // O módulo de hábitos (que tem suas próprias sub-rotas como /novo e /:id)
   {
     path: 'habits',
     loadChildren: () => import('./features/habits/habits.module').then(m => m.HabitsModule)
   },
 
-  // Rota de fallback: se digitar uma URL que não existe, joga pro dashboard
   { path: '**', redirectTo: '/dashboard' }
 ];
